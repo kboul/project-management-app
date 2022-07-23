@@ -1,5 +1,15 @@
 # Project Management App
 
+## .env
+
+Create a .env file and include:
+
+```
+NODE_ENV=development
+PORT=5000
+MONGO_URI=your_mgo_db_uri
+```
+
 node server opens with
 
 ```
