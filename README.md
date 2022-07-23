@@ -22,7 +22,7 @@ graphql server opens on
 http://localhost:5000/graphql
 ```
 
-get only name, email, id for a single client:
+Get only name, email, id for a single client:
 
 ```
 {
@@ -32,7 +32,7 @@ get only name, email, id for a single client:
 }
 ```
 
-get only name, email, id, phone for all clients:
+Get only name, email, id, phone for all clients:
 
 ```
 {
@@ -42,7 +42,7 @@ get only name, email, id, phone for all clients:
 }
 ```
 
-get specific id from a project and show relevent client info:
+Get specific id from a project and show relevent client info:
 
 ```
 {
@@ -50,6 +50,29 @@ get specific id from a project and show relevent client info:
     name,status,description,client {
       name,id
     }
+  }
+}
+```
+
+Add a client with specific info:
+
+```
+mutation {
+  addClient(name: "Tony Stark", email: "tonyStark@gmail.com", phone: "555-555-555") {
+    id
+    name
+    email
+    phone
+  }
+}
+```
+
+Delete a client by showing specific info:
+
+```
+mutation {
+  deleteClient(id: "a_valid_id") {
+    name
   }
 }
 ```
