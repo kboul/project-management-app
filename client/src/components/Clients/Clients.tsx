@@ -8,17 +8,11 @@ import {
   TableCell,
   TableBody
 } from "@mui/material";
-import { FaTrash } from "react-icons/fa";
 
-import Spinner from "./Spinner";
-import { GET_CLIENTS } from "../queries";
-
-interface Client {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-}
+import ClientRow from "./ClientRow";
+import Spinner from "../Spinner";
+import { Client } from "../../.d";
+import { GET_CLIENTS } from "../../queries";
 
 export default function Clients() {
   const { loading, error, data } = useQuery(GET_CLIENTS);
@@ -39,14 +33,7 @@ export default function Clients() {
         </TableHead>
         <TableBody>
           {data.clients.map((client: Client) => (
-            <TableRow key={client.id}>
-              <TableCell>{client.name}</TableCell>
-              <TableCell>{client.email}</TableCell>
-              <TableCell>{client.phone}</TableCell>
-              <TableCell>
-                <FaTrash />
-              </TableCell>
-            </TableRow>
+            <ClientRow client={client} key={client.id} />
           ))}
         </TableBody>
       </Table>
