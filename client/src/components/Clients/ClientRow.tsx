@@ -3,7 +3,7 @@ import { TableRow, TableCell } from "@mui/material";
 import { FaTrash } from "react-icons/fa";
 
 import { DELETE_CLIENT } from "../../mutations/client";
-import { Client } from "../../.d";
+import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 
 interface ClientRowProps {
@@ -15,13 +15,13 @@ export default function ClientRow({ client }: ClientRowProps) {
     variables: { id: client.id },
     // refetchQueries: [{ query: GET_CLIENTS }], // refetches all data after deletion
     update(cache, { data: { deleteClient } }) {
-      const cacheClients: { clients: Client[] } | null = cache.readQuery({
+      const cachedClients: { clients: Client[] } | null = cache.readQuery({
         query: GET_CLIENTS
       });
       cache.writeQuery({
         query: GET_CLIENTS,
         data: {
-          clients: cacheClients?.clients.filter(
+          clients: cachedClients?.clients.filter(
             (client: Client) => client.id !== deleteClient.id
           )
         }

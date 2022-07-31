@@ -11,7 +11,7 @@ import {
 
 import ClientRow from "./ClientRow";
 import Spinner from "../Spinner";
-import { Client } from "../../.d";
+import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 
 export default function Clients() {

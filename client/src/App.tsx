@@ -1,6 +1,7 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { Box, Stack } from "@mui/material";
 
-import { Clients, Navbar } from "./components";
+import { AddClientModal, Clients, Navbar } from "./components";
 
 // remove console warning after caching
 const cache = new InMemoryCache({
@@ -31,7 +32,12 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <Navbar />
-      <Clients />
+      <Box>
+        <AddClientModal />
+        <Stack spacing={2}>
+          <Clients />
+        </Stack>
+      </Box>
     </ApolloProvider>
   );
 }
