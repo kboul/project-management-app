@@ -1,7 +1,8 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import { Box, Stack } from "@mui/material";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { AddClientModal, Clients, Navbar, Projects } from "./components";
+import { Navbar } from "./components";
+import { Home, NotFound } from "./pages";
 
 // remove console warning after caching
 const cache = new InMemoryCache({
@@ -31,14 +32,13 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <Navbar />
-      <Box>
-        <AddClientModal />
-        <Stack spacing={2}>
-          <Projects />
-          <Clients />
-        </Stack>
-      </Box>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </ApolloProvider>
   );
 }
