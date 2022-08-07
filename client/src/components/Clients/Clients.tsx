@@ -10,16 +10,14 @@ import {
 } from "@mui/material";
 
 import ClientRow from "./ClientRow";
-import Spinner from "../Spinner";
+import LoadingOrError from "../LoadingOrError";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 
 export default function Clients() {
   const { loading, error, data } = useQuery(GET_CLIENTS);
 
-  if (loading) return <Spinner />;
-  if (error) return <p>Something is wrong</p>;
-
+  if (!data) return <LoadingOrError error={error} loading={loading} />;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
@@ -32,7 +30,7 @@ export default function Clients() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.clients.map((client: Client) => (
+          {data?.clients.map((client: Client) => (
             <ClientRow client={client} key={client.id} />
           ))}
         </TableBody>
