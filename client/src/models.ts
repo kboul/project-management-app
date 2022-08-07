@@ -7,6 +7,7 @@ interface Client {
 
 interface Project {
   id: number;
+  description: string;
   name: string;
   status: string;
   client?: {

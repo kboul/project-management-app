@@ -15,7 +15,7 @@ import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 
 export default function Clients() {
-  const { loading, error, data } = useQuery(GET_CLIENTS);
+  const { data, error, loading } = useQuery(GET_CLIENTS);
 
   if (!data) return <LoadingOrError error={error} loading={loading} />;
   return (
