@@ -2,7 +2,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Navbar } from "./components";
-import { Home, NotFound } from "./pages";
+import { Home, NotFound, Project } from "./pages";
 
 // remove console warning after caching
 const cache = new InMemoryCache({
@@ -36,6 +36,7 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/projects/:id" element={<Project />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
