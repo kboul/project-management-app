@@ -9,8 +9,8 @@ import {
   Snackbar
 } from "@mui/material";
 
-import Alert from "./Alert";
-import TransitionLeft from "./TransitionLeft";
+import Alert from "../Alert";
+import TransitionLeft from "../TransitionLeft";
 import { ADD_CLIENT } from "../../mutations/client";
 import { useMutation } from "@apollo/client";
 import { Client } from "../../models";

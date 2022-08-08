@@ -16,12 +16,12 @@ export default function AddClientModal() {
   };
 
   return (
-    <Box m={1}>
+    <Box m={2}>
       <Button
-        size="small"
-        variant="contained"
         onClick={handleClickOpen}
-        startIcon={<FaUser />}>
+        size="small"
+        startIcon={<FaUser />}
+        variant="contained">
         Add client
       </Button>
       <AddClientDialog
