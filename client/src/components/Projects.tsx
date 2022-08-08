@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { useQuery } from "@apollo/client";
 
 import LoadingOrError from "./LoadingOrError";
@@ -10,9 +11,21 @@ export default function Projects() {
 
   if (!data) return <LoadingOrError error={error} loading={loading} />;
 
-  if (data?.projects.lenth === 0) return <p>No projects</p>;
+  if (data?.projects.length === 0) return <p>No projects</p>;
 
-  return data?.projects.map((project: Project) => (
-    <ProjectCard key={project.id} project={project} />
-  ));
+  if (data?.projects.length > 0)
+    return (
+      <Box
+        display="grid"
+        justifyContent="center"
+        style={{
+          gridGap: "20px",
+          gridTemplateColumns: "repeat(auto-fill, 50vh)"
+        }}>
+        {data?.projects.map((project: Project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </Box>
+    );
+  return null;
 }
