@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { TableRow, TableCell } from "@mui/material";
+import { IconButton, TableRow, TableCell } from "@mui/material";
 import { FaTrash } from "react-icons/fa";
 
 import { DELETE_CLIENT } from "../../mutations/client";
@@ -37,7 +37,9 @@ export default function ClientRow({ client }: ClientRowProps) {
       <TableCell>{client.email}</TableCell>
       <TableCell>{client.phone}</TableCell>
       <TableCell>
-        <FaTrash onClick={handleClick} style={{ cursor: "pointer" }} />
+        <IconButton onClick={handleClick}>
+          <FaTrash color="black" size="0.5em" />
+        </IconButton>
       </TableCell>
     </TableRow>
   );
