@@ -7,12 +7,10 @@ interface Client {
 
 interface Project {
   id: number;
+  description: string;
   name: string;
   status: string;
-  client?: {
-    name: string;
-    email: string;
-  };
+  client?: Client;
 }
 
 export type { Client, Project };
