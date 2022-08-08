@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -7,6 +8,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
+import ClientInfo from "./ClientInfo";
 import { Project } from "../models";
 
 interface ProjectProps {
@@ -17,8 +19,14 @@ interface ProjectProps {
 export default function ProjectCard({ mode = "all", project }: ProjectProps) {
   const isModeAll = mode === "all";
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardActionArea>
+    <Card
+      sx={{
+        minWidth: 275,
+        "& .MuiAccordionSummary-root:hover, .MuiButtonBase-root:hover": {
+          cursor: "default"
+        }
+      }}>
+      <CardActionArea disableRipple>
         <CardContent>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography
@@ -29,10 +37,15 @@ export default function ProjectCard({ mode = "all", project }: ProjectProps) {
               {project.name}
             </Typography>
 
-            <Box>
-              {isModeAll && <Link to={`projects/${project.id}`}>View</Link>}
-              {!isModeAll && <Link to="/">Back</Link>}
-            </Box>
+            <Button
+              color="primary"
+              component={Link}
+              size="small"
+              style={{ cursor: "pointer" }}
+              to={isModeAll ? `projects/${project.id}` : "/"}
+              variant="text">
+              {isModeAll ? "View" : "Back"}
+            </Button>
           </Box>
           <Typography variant="body2" sx={{ mb: 1.5 }}>
             {project?.description}
@@ -40,6 +53,8 @@ export default function ProjectCard({ mode = "all", project }: ProjectProps) {
           <Typography variant="body2">
             Status: <b>{project.status}</b>
           </Typography>
+
+          {!isModeAll && project && <ClientInfo client={project.client} />}
         </CardContent>
       </CardActionArea>
     </Card>

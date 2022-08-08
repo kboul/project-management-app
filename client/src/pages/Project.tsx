@@ -13,7 +13,7 @@ export default function Project() {
 
   if (!loading && !error && data)
     return (
-      <Container sx={{ mt: 4 }}>
+      <Container sx={{ mt: 4 }} maxWidth="md">
         <ProjectCard mode="single" project={data.project} />
       </Container>
     );
