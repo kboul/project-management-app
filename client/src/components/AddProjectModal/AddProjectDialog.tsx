@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import {
   Stack,
   Button,
@@ -7,21 +7,22 @@ import {
   DialogTitle,
   TextField,
   Snackbar,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   SelectChangeEvent
 } from "@mui/material";
 
 import Alert from "../Alert";
+import AppSelect from "../AppSelect";
+import LoadingOrError from "../LoadingOrError";
 import TransitionLeft from "../TransitionLeft";
 import { initialState, statusItems, textFieldProps } from "./constants";
+import { GET_CLIENTS } from "../../queries";
+import { useQuery } from "@apollo/client";
+import { Client } from "../../models";
 
 interface Form {
   name: string;
   description: string;
-  // clientId: string;
+  clientId: string;
   status: string;
 }
 
@@ -34,17 +35,20 @@ export default function AddProjectDialog({
   onClose,
   open
 }: AddProjectDialogProps) {
+  const id = useId();
+
+  const { data, error, loading } = useQuery(GET_CLIENTS);
+
   const [form, setForm] = useState(initialState);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const { name, description, status } = form;
+  const { name, description, clientId, status } = form;
 
   const handleModalClose = () => onClose();
 
   const handleSubmit = () => {
-    if (name === "" || description === "" || status === "")
+    if (name === "" || description === "" || clientId === "" || status === "")
       return setSnackbarOpen(true);
-
     setForm(initialState);
   };
 
@@ -56,6 +60,8 @@ export default function AddProjectDialog({
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
+  if (!data) return <LoadingOrError error={error} loading={loading} />;
+
   return (
     <>
       <Dialog fullWidth maxWidth="sm" onClose={handleModalClose} open={open}>
@@ -63,32 +69,33 @@ export default function AddProjectDialog({
         <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
           {textFieldProps.map(({ name, label }) => {
             const isTextArea = name === textFieldProps[1].name;
+            const isClient =
+              name === textFieldProps[textFieldProps.length - 2].name;
+            const isStatus =
+              name === textFieldProps[textFieldProps.length - 1].name;
 
-            if (name === textFieldProps[textFieldProps.length - 1].name)
+            const clientItems = data.clients.map((client: Client) => ({
+              value: client.id,
+              item: client.name
+            }));
+
+            if (isStatus || isClient)
               return (
-                <FormControl
-                  key={name}
-                  sx={{ m: 1, minWidth: 120 }}
-                  size="small">
-                  <InputLabel id="description">{label}</InputLabel>
-                  <Select
-                    id="description"
-                    labelId="description"
-                    name={name}
-                    value={status}
-                    label={label}
-                    onChange={handleFormChange}>
-                    {statusItems.map(({ value, statusItem }) => (
-                      <MenuItem key={value} value={value}>
-                        {statusItem}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <AppSelect
+                  data={isStatus ? statusItems : clientItems}
+                  id={name}
+                  key={`${id}-${name}`}
+                  label={label}
+                  labelId={`${name}-label`}
+                  name={name}
+                  value={form[name as keyof Form]}
+                  onChange={handleFormChange}
+                />
               );
+
             return (
               <TextField
-                key={name}
+                key={`${id}-${name}`}
                 label={label}
                 rows={isTextArea ? 3 : 1}
                 multiline={isTextArea}
