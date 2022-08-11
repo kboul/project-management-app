@@ -9,15 +9,16 @@ import {
   Snackbar,
   SelectChangeEvent
 } from "@mui/material";
+import { useMutation, useQuery } from "@apollo/client";
 
 import Alert from "../Alert";
 import AppSelect from "../AppSelect";
 import LoadingOrError from "../LoadingOrError";
 import TransitionLeft from "../TransitionLeft";
 import { initialState, statusItems, textFieldProps } from "./constants";
-import { GET_CLIENTS } from "../../queries";
-import { useQuery } from "@apollo/client";
-import { Client } from "../../models";
+import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
+import { Client, Project } from "../../models";
+import { ADD_PROJECT } from "../../mutations/project";
 
 interface Form {
   name: string;
@@ -46,10 +47,26 @@ export default function AddProjectDialog({
 
   const handleModalClose = () => onClose();
 
+  const [addProject] = useMutation(ADD_PROJECT, {
+    variables: { name, description, clientId, status },
+    update(cache, { data: { addProject } }) {
+      const cachedProjects: { projects: Project[] } | null = cache.readQuery({
+        query: GET_PROJECTS
+      });
+      cache.writeQuery({
+        query: GET_PROJECTS,
+        data: { projects: cachedProjects?.projects.concat([addProject]) } // spread operator alternative
+      });
+    }
+  });
+
   const handleSubmit = () => {
     if (name === "" || description === "" || clientId === "" || status === "")
       return setSnackbarOpen(true);
+
+    addProject();
     setForm(initialState);
+    onClose();
   };
 
   const handleFormChange = (
@@ -88,8 +105,8 @@ export default function AddProjectDialog({
                   label={label}
                   labelId={`${name}-label`}
                   name={name}
-                  value={form[name as keyof Form]}
                   onChange={handleFormChange}
+                  value={form[name as keyof Form]}
                 />
               );
 
