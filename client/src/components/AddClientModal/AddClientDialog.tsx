@@ -9,8 +9,8 @@ import {
   Snackbar
 } from "@mui/material";
 
-import Alert from "./Alert";
-import TransitionLeft from "./TransitionLeft";
+import Alert from "../Alert";
+import TransitionLeft from "../TransitionLeft";
 import { ADD_CLIENT } from "../../mutations/client";
 import { useMutation } from "@apollo/client";
 import { Client } from "../../models";
@@ -23,15 +23,15 @@ interface Form {
   phone: string;
 }
 
+interface AddClientDialogProps {
+  onClose: () => void;
+  open: boolean;
+}
+
 export default function AddClientDialog({
   onClose,
-  open,
-  selectedValue
-}: {
-  onClose: (value: string) => void;
-  open: boolean;
-  selectedValue: string;
-}) {
+  open
+}: AddClientDialogProps) {
   const [form, setForm] = useState(initialState);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -50,7 +50,7 @@ export default function AddClientDialog({
     }
   });
 
-  const handleModalClose = () => onClose(selectedValue);
+  const handleModalClose = () => onClose();
 
   const handleSubmit = () => {
     if (name === "" || email === "" || phone === "")

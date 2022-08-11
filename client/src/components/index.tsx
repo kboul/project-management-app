@@ -1,4 +1,5 @@
 export { default as AddClientModal } from "./AddClientModal/AddClientModal";
+export { default as AddProjectModal } from "./AddProjectModal/AddProjectModal";
 export { default as Clients } from "./Clients/Clients";
 export { default as LoadingOrError } from "./LoadingOrError";
 export { default as Navbar } from "./Navbar/Navbar";

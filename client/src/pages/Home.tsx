@@ -1,11 +1,19 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
-import { AddClientModal, Clients, Projects } from "../components";
+import {
+  AddClientModal,
+  AddProjectModal,
+  Clients,
+  Projects
+} from "../components";
 
 export default function Home() {
   return (
     <>
-      <AddClientModal />
+      <Box display="flex">
+        <AddClientModal />
+        <AddProjectModal />
+      </Box>
       <Stack spacing={2}>
         <Projects />
         <Clients />
