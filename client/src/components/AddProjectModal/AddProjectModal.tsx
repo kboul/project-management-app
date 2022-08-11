@@ -1,25 +1,26 @@
 import { useState } from "react";
 import { Box, Button } from "@mui/material";
-import { FaUser } from "react-icons/fa";
+import { FaList } from "react-icons/fa";
 
-import AddClientDialog from "./AddClientDialog";
+import AddProjectDialog from "./AddProjectDialog";
 
-export default function AddClientModal() {
+export default function AddProjectModal() {
   const [open, setOpen] = useState(false);
 
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
 
   return (
-    <Box m={2} mr={0}>
+    <Box m={2}>
       <Button
+        color="secondary"
         onClick={handleModalOpen}
         size="small"
-        startIcon={<FaUser />}
+        startIcon={<FaList />}
         variant="contained">
-        Add client
+        New project
       </Button>
-      <AddClientDialog onClose={handleModalClose} open={open} />
+      <AddProjectDialog onClose={handleModalClose} open={open} />
     </Box>
   );
 }
