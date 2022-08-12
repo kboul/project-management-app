@@ -24,6 +24,7 @@ export default function DeleteProjectButton({ id }: DeleteProjectButtonProps) {
   return (
     <Box display="flex" justifyContent="flex-end" mt={2}>
       <Button
+        component="span"
         onClick={handleClick}
         size="small"
         startIcon={<FaTrash />}
