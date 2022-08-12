@@ -26,7 +26,7 @@ export default function Clients() {
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone</TableCell>
-            <TableCell></TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
