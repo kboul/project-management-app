@@ -1,4 +1,4 @@
-import { useId, useState, ChangeEvent } from "react";
+import { useId, useState, ChangeEvent, useMemo } from "react";
 import {
   Stack,
   Button,
@@ -79,6 +79,15 @@ export default function AddProjectDialog({
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
+  const clientItems = useMemo(
+    () =>
+      data?.clients.map((client: Client) => ({
+        value: client.id,
+        item: client.name
+      })),
+    [data?.clients]
+  );
+
   if (!data) return <LoadingOrError error={error} loading={loading} />;
 
   return (
@@ -92,11 +101,6 @@ export default function AddProjectDialog({
               textFieldName === textFields[textFields.length - 2].name;
             const isStatus =
               textFieldName === textFields[textFields.length - 1].name;
-
-            const clientItems = data.clients.map((client: Client) => ({
-              value: client.id,
-              item: client.name
-            }));
 
             if (isStatus || isClient)
               return (
