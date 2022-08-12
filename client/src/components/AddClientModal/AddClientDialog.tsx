@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   Stack,
   Button,
@@ -8,14 +8,14 @@ import {
   TextField,
   Snackbar
 } from "@mui/material";
+import { useMutation } from "@apollo/client";
 
 import Alert from "../Alert";
-import TransitionLeft from "../TransitionLeft";
+import TransitionRightLeft from "../TransitionRightLeft";
 import { ADD_CLIENT } from "../../mutations/client";
-import { useMutation } from "@apollo/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
-import { initialState, textFieldProps } from "./constants";
+import { initialState, textFields } from "./constants";
 
 interface Form {
   name: string;
@@ -39,6 +39,7 @@ export default function AddClientDialog({
 
   const [addClient] = useMutation(ADD_CLIENT, {
     variables: { name, email, phone },
+    // eslint-disable-next-line no-shadow
     update(cache, { data: { addClient } }) {
       const cachedClients: { clients: Client[] } | null = cache.readQuery({
         query: GET_CLIENTS
@@ -52,6 +53,7 @@ export default function AddClientDialog({
 
   const handleModalClose = () => onClose();
 
+  // eslint-disable-next-line consistent-return
   const handleSubmit = () => {
     if (name === "" || email === "" || phone === "")
       return setSnackbarOpen(true);
@@ -62,7 +64,7 @@ export default function AddClientDialog({
   };
 
   const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
@@ -72,13 +74,13 @@ export default function AddClientDialog({
       <Dialog fullWidth maxWidth="sm" onClose={handleModalClose} open={open}>
         <DialogTitle>Add Client</DialogTitle>
         <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
-          {textFieldProps.map(({ name, label }) => (
+          {textFields.map(({ name: textFieldName, label }) => (
             <TextField
-              key={name}
+              key={textFieldName}
               label={label}
-              name={name}
+              name={textFieldName}
               onChange={handleFormChange}
-              value={form[name as keyof Form]}
+              value={form[textFieldName as keyof Form]}
               variant="outlined"
             />
           ))}
@@ -97,7 +99,7 @@ export default function AddClientDialog({
         autoHideDuration={5000}
         onClose={() => setSnackbarOpen(false)}
         open={snackbarOpen}
-        TransitionComponent={TransitionLeft}>
+        TransitionComponent={TransitionRightLeft}>
         <Alert severity="warning" sx={{ width: "100%" }}>
           Please fill in all the fields
         </Alert>

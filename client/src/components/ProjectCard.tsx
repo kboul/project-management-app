@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 
 import ClientInfo from "./ClientInfo";
+import DeleteProjectButton from "./DeleteProjectButton";
 import { Project } from "../models";
 
 interface ProjectProps {
@@ -56,6 +57,8 @@ export default function ProjectCard({ mode = "all", project }: ProjectProps) {
           </Typography>
 
           {!isModeAll && project && <ClientInfo client={project.client} />}
+
+          {!isModeAll && project && <DeleteProjectButton id={project.id} />}
         </CardContent>
       </CardActionArea>
     </Card>

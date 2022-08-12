@@ -14,7 +14,7 @@ export default function AppSelect({
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
       <InputLabel id={otherProps.labelId}>{label}</InputLabel>
-      <Select {...otherProps}>
+      <Select {...otherProps} label={label}>
         {data.map(({ value, item }) => (
           <MenuItem key={value} value={value}>
             {item}
