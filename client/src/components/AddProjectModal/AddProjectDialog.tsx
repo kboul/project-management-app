@@ -14,7 +14,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import Alert from "../Alert";
 import AppSelect from "../AppSelect";
 import LoadingOrError from "../LoadingOrError";
-import TransitionLeft from "../TransitionLeft";
+import TransitionRightLeft from "../TransitionRightLeft";
 import { initialState, statusItems, textFields } from "./constants";
 import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
 import { Client, Project } from "../../models";
@@ -144,7 +144,7 @@ export default function AddProjectDialog({
         autoHideDuration={5000}
         onClose={() => setSnackbarOpen(false)}
         open={snackbarOpen}
-        TransitionComponent={TransitionLeft}>
+        TransitionComponent={TransitionRightLeft}>
         <Alert severity="warning" sx={{ width: "100%" }}>
           Please fill in all the fields
         </Alert>

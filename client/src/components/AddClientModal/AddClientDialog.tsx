@@ -11,7 +11,7 @@ import {
 import { useMutation } from "@apollo/client";
 
 import Alert from "../Alert";
-import TransitionLeft from "../TransitionLeft";
+import TransitionRightLeft from "../TransitionRightLeft";
 import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
@@ -99,7 +99,7 @@ export default function AddClientDialog({
         autoHideDuration={5000}
         onClose={() => setSnackbarOpen(false)}
         open={snackbarOpen}
-        TransitionComponent={TransitionLeft}>
+        TransitionComponent={TransitionRightLeft}>
         <Alert severity="warning" sx={{ width: "100%" }}>
           Please fill in all the fields
         </Alert>
