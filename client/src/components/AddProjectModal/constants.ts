@@ -1,6 +1,6 @@
 const initialState = { name: "", description: "", clientId: "", status: "new" };
 
-const textFieldProps = [
+const textFields = [
   { label: "Name", name: "name" },
   { label: "Description", name: "description" },
   { label: "Client", name: "clientId" },
@@ -13,4 +13,4 @@ const statusItems = [
   { value: "completed", item: "Completed" }
 ];
 
-export { initialState, statusItems, textFieldProps };
+export { initialState, statusItems, textFields };

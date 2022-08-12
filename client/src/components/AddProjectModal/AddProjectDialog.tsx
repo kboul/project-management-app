@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useState, ChangeEvent } from "react";
 import {
   Stack,
   Button,
@@ -15,7 +15,7 @@ import Alert from "../Alert";
 import AppSelect from "../AppSelect";
 import LoadingOrError from "../LoadingOrError";
 import TransitionLeft from "../TransitionLeft";
-import { initialState, statusItems, textFieldProps } from "./constants";
+import { initialState, statusItems, textFields } from "./constants";
 import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
 import { Client, Project } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
@@ -49,6 +49,7 @@ export default function AddProjectDialog({
 
   const [addProject] = useMutation(ADD_PROJECT, {
     variables: { name, description, clientId, status },
+    // eslint-disable-next-line no-shadow
     update(cache, { data: { addProject } }) {
       const cachedProjects: { projects: Project[] } | null = cache.readQuery({
         query: GET_PROJECTS
@@ -60,6 +61,7 @@ export default function AddProjectDialog({
     }
   });
 
+  // eslint-disable-next-line consistent-return
   const handleSubmit = () => {
     if (name === "" || description === "" || clientId === "" || status === "")
       return setSnackbarOpen(true);
@@ -71,7 +73,7 @@ export default function AddProjectDialog({
 
   const handleFormChange = (
     e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent<string>
   ) => {
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -84,12 +86,12 @@ export default function AddProjectDialog({
       <Dialog fullWidth maxWidth="sm" onClose={handleModalClose} open={open}>
         <DialogTitle>New project</DialogTitle>
         <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
-          {textFieldProps.map(({ name, label }) => {
-            const isTextArea = name === textFieldProps[1].name;
+          {textFields.map(({ name: textFieldName, label }) => {
+            const isTextArea = textFieldName === textFields[1].name;
             const isClient =
-              name === textFieldProps[textFieldProps.length - 2].name;
+              textFieldName === textFields[textFields.length - 2].name;
             const isStatus =
-              name === textFieldProps[textFieldProps.length - 1].name;
+              textFieldName === textFields[textFields.length - 1].name;
 
             const clientItems = data.clients.map((client: Client) => ({
               value: client.id,
@@ -100,25 +102,25 @@ export default function AddProjectDialog({
               return (
                 <AppSelect
                   data={isStatus ? statusItems : clientItems}
-                  id={name}
-                  key={`${id}-${name}`}
+                  id={textFieldName}
+                  key={`${id}-${textFieldName}`}
                   label={label}
-                  labelId={`${name}-label`}
-                  name={name}
+                  labelId={`${textFieldName}-label`}
+                  name={textFieldName}
                   onChange={handleFormChange}
-                  value={form[name as keyof Form]}
+                  value={form[textFieldName as keyof Form]}
                 />
               );
 
             return (
               <TextField
-                key={`${id}-${name}`}
+                key={`${id}-${textFieldName}`}
                 label={label}
                 rows={isTextArea ? 3 : 1}
                 multiline={isTextArea}
-                name={name}
+                name={textFieldName}
                 onChange={handleFormChange}
-                value={form[name as keyof Form]}
+                value={form[textFieldName as keyof Form]}
                 variant="outlined"
               />
             );
