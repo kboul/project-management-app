@@ -2,11 +2,9 @@ import { useMutation } from "@apollo/client";
 import {
   Box,
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle
+  DialogContentText
 } from "@mui/material";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
@@ -15,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import TransitionBottomCenter from "./TransitionBottomCenter";
 import { DELETE_PROJECT } from "../mutations/project";
 import { GET_PROJECTS } from "../queries";
+import AppDialog from "./AppDialog";
 
 interface DeleteProjectButtonProps {
   id: number;
@@ -45,15 +44,14 @@ export default function DeleteProjectButton({ id }: DeleteProjectButtonProps) {
         variant="contained">
         Delete project
       </Button>
-      <Dialog
-        open={dialogOpen}
-        TransitionComponent={TransitionBottomCenter}
+      <AppDialog
         keepMounted
         onClose={handleDialogClose}
-        aria-describedby="alert-dialog-slide-description">
-        <DialogTitle />
+        open={dialogOpen}
+        title=""
+        TransitionComponent={TransitionBottomCenter}>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
+          <DialogContentText>
             Are you sure you want to delete this project?
           </DialogContentText>
         </DialogContent>
@@ -61,7 +59,7 @@ export default function DeleteProjectButton({ id }: DeleteProjectButtonProps) {
           <Button onClick={handleOk}>Ok</Button>
           <Button onClick={handleDialogClose}>Cancel</Button>
         </DialogActions>
-      </Dialog>
+      </AppDialog>
     </Box>
   );
 }

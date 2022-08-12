@@ -2,9 +2,7 @@ import { useState, ChangeEvent } from "react";
 import {
   Stack,
   Button,
-  Dialog,
   DialogActions,
-  DialogTitle,
   TextField,
   Snackbar
 } from "@mui/material";
@@ -16,6 +14,7 @@ import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 import { initialState, textFields } from "./constants";
+import AppDialog from "../AppDialog";
 
 interface Form {
   name: string;
@@ -71,8 +70,12 @@ export default function AddClientDialog({
 
   return (
     <>
-      <Dialog fullWidth maxWidth="sm" onClose={handleModalClose} open={open}>
-        <DialogTitle>Add Client</DialogTitle>
+      <AppDialog
+        fullWidth
+        maxWidth="sm"
+        onClose={handleModalClose}
+        open={open}
+        title="Add Client">
         <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
           {textFields.map(({ name: textFieldName, label }) => (
             <TextField
@@ -93,7 +96,7 @@ export default function AddClientDialog({
             Close
           </Button>
         </DialogActions>
-      </Dialog>
+      </AppDialog>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         autoHideDuration={5000}

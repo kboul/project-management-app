@@ -2,9 +2,7 @@ import { useId, useState, ChangeEvent, useMemo } from "react";
 import {
   Stack,
   Button,
-  Dialog,
   DialogActions,
-  DialogTitle,
   TextField,
   Snackbar,
   SelectChangeEvent
@@ -19,6 +17,7 @@ import { initialState, statusItems, textFields } from "./constants";
 import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
 import { Client, Project } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
+import AppDialog from "../AppDialog";
 
 interface Form {
   name: string;
@@ -92,8 +91,12 @@ export default function AddProjectDialog({
 
   return (
     <>
-      <Dialog fullWidth maxWidth="sm" onClose={handleModalClose} open={open}>
-        <DialogTitle>New project</DialogTitle>
+      <AppDialog
+        fullWidth
+        maxWidth="sm"
+        onClose={handleModalClose}
+        open={open}
+        title="New project">
         <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
           {textFields.map(({ name: textFieldName, label }) => {
             const isTextArea = textFieldName === textFields[1].name;
@@ -138,7 +141,7 @@ export default function AddProjectDialog({
             Close
           </Button>
         </DialogActions>
-      </Dialog>
+      </AppDialog>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         autoHideDuration={5000}
