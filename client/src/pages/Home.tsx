@@ -3,7 +3,7 @@ import { Box, Stack } from "@mui/material";
 import {
   AddClientModal,
   AddProjectModal,
-  Clients,
+  ClientsTable,
   Projects
 } from "../components";
 
@@ -16,7 +16,7 @@ export default function Home() {
       </Box>
       <Stack spacing={2}>
         <Projects />
-        <Clients />
+        <ClientsTable />
       </Stack>
     </>
   );

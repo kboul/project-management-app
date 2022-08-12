@@ -16,12 +16,12 @@ interface ClientInfoProps {
 }
 
 export default function ClientInfo({ client }: ClientInfoProps) {
-  const id = useId();
+  const key = useId();
 
   const listItems = [
-    { id: `${id}-1`, text: client?.name, Icon: FaIdBadge },
-    { id: `${id}-2`, text: client?.email, Icon: FaEnvelope },
-    { id: `${id}-3`, text: client?.phone, Icon: FaPhone }
+    { id: `${key}-1`, text: client?.name, Icon: FaIdBadge },
+    { id: `${key}-2`, text: client?.email, Icon: FaEnvelope },
+    { id: `${key}-3`, text: client?.phone, Icon: FaPhone }
   ];
 
   return (

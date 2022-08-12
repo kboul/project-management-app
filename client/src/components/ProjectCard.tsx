@@ -12,6 +12,7 @@ import ClientInfo from "./ClientInfo";
 import { Project } from "../models";
 
 interface ProjectProps {
+  // eslint-disable-next-line react/require-default-props
   mode?: "all" | "single";
   project: Project;
 }

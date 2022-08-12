@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { useMutation } from "@apollo/client";
 import { IconButton, TableRow, TableCell } from "@mui/material";
 import { FaTrash } from "react-icons/fa";
@@ -22,7 +23,7 @@ export default function ClientRow({ client }: ClientRowProps) {
         query: GET_CLIENTS,
         data: {
           clients: cachedClients?.clients.filter(
-            (client: Client) => client.id !== deleteClient.id
+            ({ id }) => id !== deleteClient.id
           )
         }
       });

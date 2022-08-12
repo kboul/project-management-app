@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
+// eslint-disable-next-line prefer-arrow-callback
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref

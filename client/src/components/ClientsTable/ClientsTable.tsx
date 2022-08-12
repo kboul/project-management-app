@@ -14,7 +14,7 @@ import LoadingOrError from "../LoadingOrError";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 
-export default function Clients() {
+export default function ClientsTable() {
   const { data, error, loading } = useQuery(GET_CLIENTS);
 
   if (!data) return <LoadingOrError error={error} loading={loading} />;
@@ -26,7 +26,7 @@ export default function Clients() {
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone</TableCell>
-            <TableCell></TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
