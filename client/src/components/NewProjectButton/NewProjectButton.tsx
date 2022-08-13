@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { FaList } from "react-icons/fa";
 
-import AddProjectDialog from "./AddProjectDialog";
+import NewProjectDialog from "./NewProjectDialog";
 
-export default function AddProjectModal() {
+export default function NewProjectButton() {
   const [open, setOpen] = useState(false);
 
   const handleModalOpen = () => setOpen(true);
@@ -20,7 +20,7 @@ export default function AddProjectModal() {
         variant="contained">
         New project
       </Button>
-      <AddProjectDialog onClose={handleModalClose} open={open} />
+      <NewProjectDialog onClose={handleModalClose} open={open} />
     </Box>
   );
 }

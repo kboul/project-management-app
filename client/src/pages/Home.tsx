@@ -2,7 +2,7 @@ import { Box, Stack } from "@mui/material";
 
 import {
   AddClientModal,
-  AddProjectModal,
+  NewProjectButton,
   ClientsTable,
   Projects
 } from "../components";
@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Box display="flex">
         <AddClientModal />
-        <AddProjectModal />
+        <NewProjectButton />
       </Box>
       <Stack spacing={2}>
         <Projects />

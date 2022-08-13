@@ -18,7 +18,7 @@ interface AddProjectDialogProps {
 
 const initialState = { name: "", description: "", clientId: "", status: "new" };
 
-export default function AddProjectDialog({
+export default function NewProjectDialog({
   onClose,
   open
 }: AddProjectDialogProps) {
