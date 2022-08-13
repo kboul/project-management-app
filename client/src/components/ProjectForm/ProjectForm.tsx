@@ -1,22 +1,25 @@
-import { Stack, TextField, SelectChangeEvent } from "@mui/material";
-import { useId, ChangeEvent, useMemo } from "react";
+import {
+  Stack,
+  TextField,
+  SelectChangeEvent,
+  DialogActions,
+  Button
+} from "@mui/material";
+import { useId, ChangeEvent } from "react";
 
 import AppSelect from "../AppSelect";
-import { Client } from "../../models";
-import { statusItems, textFields } from "./constants";
 import { Form, ProjectFormProps } from "./models";
+import { statusItems } from "../../constants";
+import { textFields } from "./constants";
 
-export default function ProjectForm({ data, form, setForm }: ProjectFormProps) {
+export default function ProjectForm({
+  clientItems,
+  form,
+  onDialogClose,
+  onSubmit,
+  setForm
+}: ProjectFormProps) {
   const id = useId();
-
-  const clientItems = useMemo(
-    () =>
-      data?.clients.map((client: Client) => ({
-        value: client.id,
-        item: client.name
-      })),
-    [data?.clients]
-  );
 
   const handleFormChange = (
     e:
@@ -27,41 +30,58 @@ export default function ProjectForm({ data, form, setForm }: ProjectFormProps) {
   };
 
   return (
-    <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
-      {textFields.map(({ name: textFieldName, label }) => {
-        const isTextArea = textFieldName === textFields[1].name;
-        const isClient =
-          textFieldName === textFields[textFields.length - 2].name;
-        const isStatus =
-          textFieldName === textFields[textFields.length - 1].name;
+    <>
+      <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
+        {textFields.map(({ name: textFieldName, label }) => {
+          const isTextArea = textFieldName === textFields[1].name;
+          const isClient =
+            textFieldName === textFields[textFields.length - 2].name;
+          const isStatus =
+            textFieldName === textFields[textFields.length - 1].name;
 
-        if (isStatus || isClient)
+          if (isStatus || isClient)
+            return (
+              <AppSelect
+                data={
+                  // eslint-disable-next-line no-nested-ternary
+                  isStatus
+                    ? statusItems
+                    : isClient && clientItems
+                    ? clientItems
+                    : []
+                }
+                id={textFieldName}
+                key={`${id}-${textFieldName}`}
+                label={label}
+                labelId={`${textFieldName}-label`}
+                name={textFieldName}
+                onChange={handleFormChange}
+                value={form[textFieldName as keyof Form]}
+              />
+            );
+
           return (
-            <AppSelect
-              data={isStatus ? statusItems : clientItems}
-              id={textFieldName}
+            <TextField
               key={`${id}-${textFieldName}`}
               label={label}
-              labelId={`${textFieldName}-label`}
+              rows={isTextArea ? 3 : 1}
+              multiline={isTextArea}
               name={textFieldName}
               onChange={handleFormChange}
               value={form[textFieldName as keyof Form]}
+              variant="outlined"
             />
           );
-
-        return (
-          <TextField
-            key={`${id}-${textFieldName}`}
-            label={label}
-            rows={isTextArea ? 3 : 1}
-            multiline={isTextArea}
-            name={textFieldName}
-            onChange={handleFormChange}
-            value={form[textFieldName as keyof Form]}
-            variant="outlined"
-          />
-        );
-      })}
-    </Stack>
+        })}
+      </Stack>
+      <DialogActions>
+        <Button onClick={onSubmit} color="primary" variant="contained">
+          Submit
+        </Button>
+        <Button onClick={onDialogClose} variant="outlined">
+          Close
+        </Button>
+      </DialogActions>
+    </>
   );
 }

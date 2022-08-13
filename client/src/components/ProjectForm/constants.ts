@@ -5,10 +5,4 @@ const textFields = [
   { label: "Status", name: "status" }
 ];
 
-const statusItems = [
-  { value: "new", item: "Not Started" },
-  { value: "progress", item: "In Progress" },
-  { value: "completed", item: "Completed" }
-];
-
-export { statusItems, textFields };
+export { textFields };

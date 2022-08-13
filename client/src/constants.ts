@@ -1,3 +1,9 @@
 const appHeight = `calc(100vh - 64px)`;
 
-export { appHeight };
+const statusItems = [
+  { value: "new", item: "Not Started" },
+  { value: "progress", item: "In Progress" },
+  { value: "completed", item: "Completed" }
+];
+
+export { appHeight, statusItems };

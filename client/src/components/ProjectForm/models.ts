@@ -10,8 +10,10 @@ interface Form {
 }
 
 interface ProjectFormProps {
-  data: { clients: Client[] };
+  clientItems?: Client[];
   form: Form;
+  onDialogClose: () => void;
+  onSubmit: () => void;
   setForm: Dispatch<SetStateAction<Form>>;
 }
 

@@ -1,5 +1,4 @@
-import { useCallback, useState } from "react";
-import { Button, DialogActions } from "@mui/material";
+import { useCallback, useMemo, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
 import AppDialog from "../AppDialog";
@@ -7,7 +6,7 @@ import AppSnackbar from "../AppSnackbar/AppSnackbar";
 import LoadingOrError from "../LoadingOrError";
 import ProjectForm from "../ProjectForm/ProjectForm";
 import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
-import { Project } from "../../models";
+import { Client, Project } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
 
 interface NewProjectDialogProps {
@@ -28,7 +27,7 @@ export default function NewProjectDialog({
 
   const { name, description, clientId, status } = form;
 
-  const handleModalClose = () => onClose();
+  const handleDialogClose = () => onClose();
 
   const [addProject] = useMutation(ADD_PROJECT, {
     variables: { name, description, clientId, status },
@@ -54,7 +53,16 @@ export default function NewProjectDialog({
     onClose();
   };
 
-  const handleSnackBarClose = useCallback(() => setSnackbarOpen(false), []);
+  const handleSnackbarClose = useCallback(() => setSnackbarOpen(false), []);
+
+  const clientItems = useMemo(
+    () =>
+      data?.clients.map((client: Client) => ({
+        value: client.id,
+        item: client.name
+      })),
+    [data?.clients]
+  );
 
   if (!data) return <LoadingOrError error={error} loading={loading} />;
 
@@ -63,20 +71,18 @@ export default function NewProjectDialog({
       <AppDialog
         fullWidth
         maxWidth="sm"
-        onClose={handleModalClose}
+        onClose={handleDialogClose}
         open={open}
         title="New project">
-        <ProjectForm data={data} form={form} setForm={setForm} />
-        <DialogActions>
-          <Button onClick={handleSubmit} color="primary" variant="contained">
-            Submit
-          </Button>
-          <Button onClick={handleModalClose} variant="outlined">
-            Close
-          </Button>
-        </DialogActions>
+        <ProjectForm
+          clientItems={clientItems}
+          form={form}
+          onDialogClose={handleDialogClose}
+          onSubmit={handleSubmit}
+          setForm={setForm}
+        />
       </AppDialog>
-      <AppSnackbar onClose={handleSnackBarClose} open={snackbarOpen} />
+      <AppSnackbar onClose={handleSnackbarClose} open={snackbarOpen} />
     </>
   );
 }

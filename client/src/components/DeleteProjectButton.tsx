@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogContentText
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +31,7 @@ export default function DeleteProjectButton({ id }: DeleteProjectButtonProps) {
 
   const handleOk = () => deleteProject();
   const handleDialogOpen = () => setDialogOpen(true);
-  const handleDialogClose = () => setDialogOpen(false);
+  const handleDialogClose = useCallback(() => setDialogOpen(false), []);
 
   return (
     <Box display="flex" mt={2}>
