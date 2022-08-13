@@ -1,42 +1,27 @@
-import { useId, useState, ChangeEvent, useMemo } from "react";
-import {
-  Stack,
-  Button,
-  DialogActions,
-  TextField,
-  Snackbar,
-  SelectChangeEvent
-} from "@mui/material";
+import { useState } from "react";
+import { Button, DialogActions, Snackbar } from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 
 import Alert from "../Alert";
-import AppSelect from "../AppSelect";
-import LoadingOrError from "../LoadingOrError";
-import TransitionRightLeft from "../TransitionRightLeft";
-import { initialState, statusItems, textFields } from "./constants";
-import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
-import { Client, Project } from "../../models";
-import { ADD_PROJECT } from "../../mutations/project";
 import AppDialog from "../AppDialog";
-
-interface Form {
-  name: string;
-  description: string;
-  clientId: string;
-  status: string;
-}
+import LoadingOrError from "../LoadingOrError";
+import ProjectForm from "../ProjectForm/ProjectForm";
+import TransitionRightLeft from "../TransitionRightLeft";
+import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
+import { Project } from "../../models";
+import { ADD_PROJECT } from "../../mutations/project";
 
 interface AddProjectDialogProps {
   onClose: () => void;
   open: boolean;
 }
 
+const initialState = { name: "", description: "", clientId: "", status: "new" };
+
 export default function AddProjectDialog({
   onClose,
   open
 }: AddProjectDialogProps) {
-  const id = useId();
-
   const { data, error, loading } = useQuery(GET_CLIENTS);
 
   const [form, setForm] = useState(initialState);
@@ -70,23 +55,6 @@ export default function AddProjectDialog({
     onClose();
   };
 
-  const handleFormChange = (
-    e:
-      | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent<string>
-  ) => {
-    setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
-  };
-
-  const clientItems = useMemo(
-    () =>
-      data?.clients.map((client: Client) => ({
-        value: client.id,
-        item: client.name
-      })),
-    [data?.clients]
-  );
-
   if (!data) return <LoadingOrError error={error} loading={loading} />;
 
   return (
@@ -97,42 +65,7 @@ export default function AddProjectDialog({
         onClose={handleModalClose}
         open={open}
         title="New project">
-        <Stack sx={{ "& .MuiFormControl-root": { m: 1 } }}>
-          {textFields.map(({ name: textFieldName, label }) => {
-            const isTextArea = textFieldName === textFields[1].name;
-            const isClient =
-              textFieldName === textFields[textFields.length - 2].name;
-            const isStatus =
-              textFieldName === textFields[textFields.length - 1].name;
-
-            if (isStatus || isClient)
-              return (
-                <AppSelect
-                  data={isStatus ? statusItems : clientItems}
-                  id={textFieldName}
-                  key={`${id}-${textFieldName}`}
-                  label={label}
-                  labelId={`${textFieldName}-label`}
-                  name={textFieldName}
-                  onChange={handleFormChange}
-                  value={form[textFieldName as keyof Form]}
-                />
-              );
-
-            return (
-              <TextField
-                key={`${id}-${textFieldName}`}
-                label={label}
-                rows={isTextArea ? 3 : 1}
-                multiline={isTextArea}
-                name={textFieldName}
-                onChange={handleFormChange}
-                value={form[textFieldName as keyof Form]}
-                variant="outlined"
-              />
-            );
-          })}
-        </Stack>
+        <ProjectForm data={data} form={form} setForm={setForm} />
         <DialogActions>
           <Button onClick={handleSubmit} color="primary" variant="contained">
             Submit

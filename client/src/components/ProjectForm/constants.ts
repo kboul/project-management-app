@@ -1,5 +1,3 @@
-const initialState = { name: "", description: "", clientId: "", status: "new" };
-
 const textFields = [
   { label: "Name", name: "name" },
   { label: "Description", name: "description" },
@@ -13,4 +11,4 @@ const statusItems = [
   { value: "completed", item: "Completed" }
 ];
 
-export { initialState, statusItems, textFields };
+export { statusItems, textFields };

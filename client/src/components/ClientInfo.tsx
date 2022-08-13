@@ -30,7 +30,7 @@ export default function ClientInfo({ client }: ClientInfoProps) {
         Client Information
       </Typography>
       <List dense>
-        {listItems.map(({ id, text, Icon }) => (
+        {listItems.map(({ Icon, id, text }) => (
           <Fragment key={id}>
             <ListItem>
               <ListItemIcon>
