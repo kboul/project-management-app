@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { Button, DialogActions, Snackbar } from "@mui/material";
+import { useCallback, useState } from "react";
+import { Button, DialogActions } from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 
-import Alert from "../Alert";
 import AppDialog from "../AppDialog";
+import AppSnackbar from "../AppSnackbar/AppSnackbar";
 import LoadingOrError from "../LoadingOrError";
 import ProjectForm from "../ProjectForm/ProjectForm";
-import TransitionRightLeft from "../TransitionRightLeft";
 import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
 import { Project } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
@@ -55,6 +54,8 @@ export default function NewProjectDialog({
     onClose();
   };
 
+  const handleSnackBarClose = useCallback(() => setSnackbarOpen(false), []);
+
   if (!data) return <LoadingOrError error={error} loading={loading} />;
 
   return (
@@ -75,16 +76,7 @@ export default function NewProjectDialog({
           </Button>
         </DialogActions>
       </AppDialog>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        autoHideDuration={5000}
-        onClose={() => setSnackbarOpen(false)}
-        open={snackbarOpen}
-        TransitionComponent={TransitionRightLeft}>
-        <Alert severity="warning" sx={{ width: "100%" }}>
-          Please fill in all the fields
-        </Alert>
-      </Snackbar>
+      <AppSnackbar onClose={handleSnackBarClose} open={snackbarOpen} />
     </>
   );
 }

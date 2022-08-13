@@ -1,21 +1,14 @@
-import { useState, ChangeEvent } from "react";
-import {
-  Stack,
-  Button,
-  DialogActions,
-  TextField,
-  Snackbar
-} from "@mui/material";
+import { useState, ChangeEvent, useCallback } from "react";
+import { Stack, Button, DialogActions, TextField } from "@mui/material";
 import { useMutation } from "@apollo/client";
 
-import Alert from "../Alert";
 import AppDialog from "../AppDialog";
-import TransitionRightLeft from "../TransitionRightLeft";
 import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 import { Form, AddClientDialogProps } from "./models";
 import { initialState, textFields } from "./constants";
+import AppSnackbar from "../AppSnackbar/AppSnackbar";
 
 export default function AddClientDialog({
   onClose,
@@ -58,6 +51,8 @@ export default function AddClientDialog({
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
+  const handleSnackBarClose = useCallback(() => setSnackbarOpen(false), []);
+
   return (
     <>
       <AppDialog
@@ -87,16 +82,7 @@ export default function AddClientDialog({
           </Button>
         </DialogActions>
       </AppDialog>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        autoHideDuration={5000}
-        onClose={() => setSnackbarOpen(false)}
-        open={snackbarOpen}
-        TransitionComponent={TransitionRightLeft}>
-        <Alert severity="warning" sx={{ width: "100%" }}>
-          Please fill in all the fields
-        </Alert>
-      </Snackbar>
+      <AppSnackbar onClose={handleSnackBarClose} open={snackbarOpen} />
     </>
   );
 }
