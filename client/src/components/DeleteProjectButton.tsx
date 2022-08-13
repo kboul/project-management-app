@@ -34,7 +34,7 @@ export default function DeleteProjectButton({ id }: DeleteProjectButtonProps) {
   const handleDialogClose = () => setDialogOpen(false);
 
   return (
-    <Box display="flex" justifyContent="flex-end" mt={2}>
+    <Box display="flex" mt={2}>
       <Button
         component="span"
         onClick={handleDialogOpen}
