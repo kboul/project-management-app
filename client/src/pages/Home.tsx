@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 
 import {
-  AddClientModal,
+  AddClientButton,
   NewProjectButton,
   ClientsTable,
   Projects
@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <Box display="flex">
-        <AddClientModal />
+        <AddClientButton />
         <NewProjectButton />
       </Box>
       <Stack spacing={2}>

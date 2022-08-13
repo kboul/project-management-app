@@ -9,23 +9,13 @@ import {
 import { useMutation } from "@apollo/client";
 
 import Alert from "../Alert";
+import AppDialog from "../AppDialog";
 import TransitionRightLeft from "../TransitionRightLeft";
 import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
+import { Form, AddClientDialogProps } from "./models";
 import { initialState, textFields } from "./constants";
-import AppDialog from "../AppDialog";
-
-interface Form {
-  name: string;
-  email: string;
-  phone: string;
-}
-
-interface AddClientDialogProps {
-  onClose: () => void;
-  open: boolean;
-}
 
 export default function AddClientDialog({
   onClose,

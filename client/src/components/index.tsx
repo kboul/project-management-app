@@ -1,4 +1,4 @@
-export { default as AddClientModal } from "./AddClientModal/AddClientModal";
+export { default as AddClientButton } from "./AddClientButton/AddClientButton";
 export { default as NewProjectButton } from "./NewProjectButton/NewProjectButton";
 export { default as ClientsTable } from "./ClientsTable/ClientsTable";
 export { default as LoadingOrError } from "./LoadingOrError";

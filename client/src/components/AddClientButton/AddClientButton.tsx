@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 
 import AddClientDialog from "./AddClientDialog";
 
-export default function AddClientModal() {
+export default function AddClientButton() {
   const [open, setOpen] = useState(false);
 
   const handleModalOpen = () => setOpen(true);

@@ -11,7 +11,7 @@ import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
 import { Project } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
 
-interface AddProjectDialogProps {
+interface NewProjectDialogProps {
   onClose: () => void;
   open: boolean;
 }
@@ -21,7 +21,7 @@ const initialState = { name: "", description: "", clientId: "", status: "new" };
 export default function NewProjectDialog({
   onClose,
   open
-}: AddProjectDialogProps) {
+}: NewProjectDialogProps) {
   const { data, error, loading } = useQuery(GET_CLIENTS);
 
   const [form, setForm] = useState(initialState);
