@@ -138,7 +138,7 @@ const mutation = new GraphQLObjectType({
         return ProjectModel.findByIdAndRemove(args.id);
       }
     },
-    updateProject: {
+    editProject: {
       type: ProjectType,
       args: {
         id: { type: new GraphQLNonNull(GraphQLID) },
@@ -146,7 +146,7 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLString },
         status: {
           type: new GraphQLEnumType({
-            name: "ProjectStatusUpdate",
+            name: "ProjectStatusEdit",
             values: {
               new: { value: "Not Started" },
               progress: { value: "In Progress" },
@@ -154,7 +154,8 @@ const mutation = new GraphQLObjectType({
             }
           }),
           defaultValue: "Not Started"
-        }
+        },
+        clientId: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parent, args) {
         return ProjectModel.findByIdAndUpdate(
@@ -163,7 +164,8 @@ const mutation = new GraphQLObjectType({
             $set: {
               name: args.name,
               description: args.description,
-              status: args.description
+              status: args.status,
+              clientId: args.clientId
             }
           },
           { new: true }

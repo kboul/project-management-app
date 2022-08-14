@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 import ClientInfo from "./ClientInfo";
 import DeleteProjectButton from "./DeleteProjectButton";
+import EditProjectButton from "./EditProjectButton/EditProjectButton";
 import { Project } from "../models";
 
 interface ProjectProps {
@@ -56,9 +57,13 @@ export default function ProjectCard({ mode = "all", project }: ProjectProps) {
             Status: <b>{project.status}</b>
           </Typography>
 
-          {!isModeAll && project && <ClientInfo client={project.client} />}
+          {!isModeAll && <ClientInfo client={project.client} />}
 
-          {!isModeAll && project && <DeleteProjectButton id={project.id} />}
+          <Box display="flex">
+            {!isModeAll && <EditProjectButton project={project} />}
+
+            {!isModeAll && <DeleteProjectButton id={project.id} />}
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

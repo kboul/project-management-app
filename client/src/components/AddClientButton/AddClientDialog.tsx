@@ -1,31 +1,13 @@
-import { useState, ChangeEvent } from "react";
-import {
-  Stack,
-  Button,
-  DialogActions,
-  TextField,
-  Snackbar
-} from "@mui/material";
+import { useState, ChangeEvent, useCallback } from "react";
+import { Stack, Button, DialogActions, TextField } from "@mui/material";
 import { useMutation } from "@apollo/client";
 
-import Alert from "../Alert";
-import TransitionRightLeft from "../TransitionRightLeft";
+import { AppDialog, AppSnackbar } from "..";
 import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
+import { ClientForm, AddClientDialogProps } from "./models";
 import { initialState, textFields } from "./constants";
-import AppDialog from "../AppDialog";
-
-interface Form {
-  name: string;
-  email: string;
-  phone: string;
-}
-
-interface AddClientDialogProps {
-  onClose: () => void;
-  open: boolean;
-}
 
 export default function AddClientDialog({
   onClose,
@@ -68,6 +50,8 @@ export default function AddClientDialog({
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
+  const handleSnackBarClose = useCallback(() => setSnackbarOpen(false), []);
+
   return (
     <>
       <AppDialog
@@ -83,7 +67,7 @@ export default function AddClientDialog({
               label={label}
               name={textFieldName}
               onChange={handleFormChange}
-              value={form[textFieldName as keyof Form]}
+              value={form[textFieldName as keyof ClientForm]}
               variant="outlined"
             />
           ))}
@@ -97,16 +81,7 @@ export default function AddClientDialog({
           </Button>
         </DialogActions>
       </AppDialog>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        autoHideDuration={5000}
-        onClose={() => setSnackbarOpen(false)}
-        open={snackbarOpen}
-        TransitionComponent={TransitionRightLeft}>
-        <Alert severity="warning" sx={{ width: "100%" }}>
-          Please fill in all the fields
-        </Alert>
-      </Snackbar>
+      <AppSnackbar onClose={handleSnackBarClose} open={snackbarOpen} />
     </>
   );
 }

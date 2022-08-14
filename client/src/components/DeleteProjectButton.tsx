@@ -6,14 +6,14 @@ import {
   DialogContent,
   DialogContentText
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+import AppDialog from "./AppDialog";
 import TransitionBottomCenter from "./TransitionBottomCenter";
 import { DELETE_PROJECT } from "../mutations/project";
 import { GET_PROJECTS } from "../queries";
-import AppDialog from "./AppDialog";
 
 interface DeleteProjectButtonProps {
   id: number;
@@ -31,10 +31,10 @@ export default function DeleteProjectButton({ id }: DeleteProjectButtonProps) {
 
   const handleOk = () => deleteProject();
   const handleDialogOpen = () => setDialogOpen(true);
-  const handleDialogClose = () => setDialogOpen(false);
+  const handleDialogClose = useCallback(() => setDialogOpen(false), []);
 
   return (
-    <Box display="flex" justifyContent="flex-end" mt={2}>
+    <Box display="flex" mt={2}>
       <Button
         component="span"
         onClick={handleDialogOpen}
