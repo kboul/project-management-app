@@ -2,13 +2,12 @@ import { useState, ChangeEvent, useCallback } from "react";
 import { Stack, Button, DialogActions, TextField } from "@mui/material";
 import { useMutation } from "@apollo/client";
 
-import AppDialog from "../AppDialog";
+import { AppDialog, AppSnackbar } from "..";
 import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
 import { ClientForm, AddClientDialogProps } from "./models";
 import { initialState, textFields } from "./constants";
-import AppSnackbar from "../AppSnackbar/AppSnackbar";
 
 export default function AddClientDialog({
   onClose,

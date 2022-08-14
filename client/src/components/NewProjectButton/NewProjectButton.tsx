@@ -1,26 +1,26 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Box, Button } from "@mui/material";
 import { FaList } from "react-icons/fa";
 
 import NewProjectDialog from "./NewProjectDialog";
 
 export default function NewProjectButton() {
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleModalOpen = () => setOpen(true);
-  const handleModalClose = () => setOpen(false);
+  const handleDialogOpen = () => setDialogOpen(true);
+  const handleDialogClose = useCallback(() => setDialogOpen(false), []);
 
   return (
     <Box m={2}>
       <Button
         color="secondary"
-        onClick={handleModalOpen}
+        onClick={handleDialogOpen}
         size="small"
         startIcon={<FaList />}
         variant="contained">
         New project
       </Button>
-      <NewProjectDialog onClose={handleModalClose} open={open} />
+      <NewProjectDialog onClose={handleDialogClose} open={dialogOpen} />
     </Box>
   );
 }

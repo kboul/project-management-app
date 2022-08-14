@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import { FaTrash } from "react-icons/fa";
 
+import AppDialog from "../AppDialog";
+import TransitionBottomCenter from "../TransitionBottomCenter";
 import { DELETE_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
-import AppDialog from "../AppDialog";
-import TransitionBottomCenter from "../TransitionBottomCenter";
 
 interface ClientRowProps {
   client: Client;

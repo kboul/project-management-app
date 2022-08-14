@@ -1,9 +1,7 @@
 import { useCallback, useState } from "react";
 import { useMutation } from "@apollo/client";
 
-import AppDialog from "../AppDialog";
-import AppSnackbar from "../AppSnackbar/AppSnackbar";
-import ProjectForm from "../ProjectForm/ProjectForm";
+import { AppDialog, AppSnackbar, ProjectForm } from "..";
 import { GET_PROJECTS } from "../../queries";
 import { Project, ProjectFormModel } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
@@ -23,8 +21,6 @@ export default function NewProjectDialog({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const { name, description, clientId, status } = form;
-
-  const handleDialogClose = useCallback(() => onClose(), []);
 
   const [addProject] = useMutation(ADD_PROJECT, {
     variables: { name, description, clientId, status },
@@ -57,12 +53,12 @@ export default function NewProjectDialog({
       <AppDialog
         fullWidth
         maxWidth="sm"
-        onClose={handleDialogClose}
+        onClose={onClose}
         open={open}
         title="New project">
         <ProjectForm
           form={form}
-          onDialogClose={handleDialogClose}
+          onDialogClose={onClose}
           onSubmit={handleSubmit}
           setForm={setForm}
         />

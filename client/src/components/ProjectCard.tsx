@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 import ClientInfo from "./ClientInfo";
 import DeleteProjectButton from "./DeleteProjectButton";
-import EditProjectButton from "./EditProjectButton";
+import EditProjectButton from "./EditProjectButton/EditProjectButton";
 import { Project } from "../models";
 
 interface ProjectProps {
