@@ -1,20 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { Client } from "../../models";
-
-interface Form {
-  name: string;
-  description: string;
-  clientId: string;
-  status: string;
-}
+import { ProjectFormModel } from "../../models";
 
 interface ProjectFormProps {
-  clientItems?: Client[];
-  form: Form;
+  form: ProjectFormModel;
   onDialogClose: () => void;
   onSubmit: () => void;
-  setForm: Dispatch<SetStateAction<Form>>;
+  setForm: Dispatch<SetStateAction<ProjectFormModel>>;
 }
 
-export type { Form, ProjectFormProps };
+export type { ProjectFormProps };

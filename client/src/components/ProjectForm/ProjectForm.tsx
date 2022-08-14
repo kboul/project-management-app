@@ -5,21 +5,26 @@ import {
   DialogActions,
   Button
 } from "@mui/material";
-import { useId, ChangeEvent } from "react";
+import { useId, ChangeEvent, useMemo } from "react";
+import { useQuery } from "@apollo/client";
 
 import AppSelect from "../AppSelect";
-import { Form, ProjectFormProps } from "./models";
+import LoadingOrError from "../LoadingOrError";
+import { ProjectFormProps } from "./models";
+import { Client, ProjectFormModel } from "../../models";
+import { GET_CLIENTS } from "../../queries";
 import { statusItems } from "../../constants";
 import { textFields } from "./constants";
 
 export default function ProjectForm({
-  clientItems,
   form,
   onDialogClose,
   onSubmit,
   setForm
 }: ProjectFormProps) {
   const id = useId();
+
+  const { data, error, loading } = useQuery(GET_CLIENTS);
 
   const handleFormChange = (
     e:
@@ -28,6 +33,17 @@ export default function ProjectForm({
   ) => {
     setForm(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
+
+  const clientItems = useMemo(
+    () =>
+      data?.clients.map((client: Client) => ({
+        value: client.id,
+        item: client.name
+      })),
+    [data?.clients]
+  );
+
+  if (!data) return <LoadingOrError error={error} loading={loading} />;
 
   return (
     <>
@@ -42,21 +58,14 @@ export default function ProjectForm({
           if (isStatus || isClient)
             return (
               <AppSelect
-                data={
-                  // eslint-disable-next-line no-nested-ternary
-                  isStatus
-                    ? statusItems
-                    : isClient && clientItems
-                    ? clientItems
-                    : []
-                }
+                data={isStatus ? statusItems : clientItems}
                 id={textFieldName}
                 key={`${id}-${textFieldName}`}
                 label={label}
                 labelId={`${textFieldName}-label`}
                 name={textFieldName}
                 onChange={handleFormChange}
-                value={form[textFieldName as keyof Form]}
+                value={form[textFieldName as keyof ProjectFormModel]}
               />
             );
 
@@ -68,7 +77,7 @@ export default function ProjectForm({
               multiline={isTextArea}
               name={textFieldName}
               onChange={handleFormChange}
-              value={form[textFieldName as keyof Form]}
+              value={form[textFieldName as keyof ProjectFormModel]}
               variant="outlined"
             />
           );

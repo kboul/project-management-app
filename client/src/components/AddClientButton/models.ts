@@ -1,4 +1,4 @@
-interface Form {
+interface ClientForm {
   name: string;
   email: string;
   phone: string;
@@ -9,4 +9,4 @@ interface AddClientDialogProps {
   open: boolean;
 }
 
-export type { Form, AddClientDialogProps };
+export type { ClientForm, AddClientDialogProps };

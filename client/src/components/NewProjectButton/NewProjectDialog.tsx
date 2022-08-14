@@ -1,12 +1,11 @@
-import { useCallback, useMemo, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useCallback, useState } from "react";
+import { useMutation } from "@apollo/client";
 
 import AppDialog from "../AppDialog";
 import AppSnackbar from "../AppSnackbar/AppSnackbar";
-import LoadingOrError from "../LoadingOrError";
 import ProjectForm from "../ProjectForm/ProjectForm";
-import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
-import { Client, Project } from "../../models";
+import { GET_PROJECTS } from "../../queries";
+import { Project, ProjectFormModel } from "../../models";
 import { ADD_PROJECT } from "../../mutations/project";
 
 interface NewProjectDialogProps {
@@ -20,14 +19,12 @@ export default function NewProjectDialog({
   onClose,
   open
 }: NewProjectDialogProps) {
-  const { data, error, loading } = useQuery(GET_CLIENTS);
-
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState<ProjectFormModel>(initialState);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const { name, description, clientId, status } = form;
 
-  const handleDialogClose = () => onClose();
+  const handleDialogClose = useCallback(() => onClose(), []);
 
   const [addProject] = useMutation(ADD_PROJECT, {
     variables: { name, description, clientId, status },
@@ -55,17 +52,6 @@ export default function NewProjectDialog({
 
   const handleSnackbarClose = useCallback(() => setSnackbarOpen(false), []);
 
-  const clientItems = useMemo(
-    () =>
-      data?.clients.map((client: Client) => ({
-        value: client.id,
-        item: client.name
-      })),
-    [data?.clients]
-  );
-
-  if (!data) return <LoadingOrError error={error} loading={loading} />;
-
   return (
     <>
       <AppDialog
@@ -75,7 +61,6 @@ export default function NewProjectDialog({
         open={open}
         title="New project">
         <ProjectForm
-          clientItems={clientItems}
           form={form}
           onDialogClose={handleDialogClose}
           onSubmit={handleSubmit}

@@ -6,7 +6,7 @@ import AppDialog from "../AppDialog";
 import { ADD_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
 import { GET_CLIENTS } from "../../queries";
-import { Form, AddClientDialogProps } from "./models";
+import { ClientForm, AddClientDialogProps } from "./models";
 import { initialState, textFields } from "./constants";
 import AppSnackbar from "../AppSnackbar/AppSnackbar";
 
@@ -68,7 +68,7 @@ export default function AddClientDialog({
               label={label}
               name={textFieldName}
               onChange={handleFormChange}
-              value={form[textFieldName as keyof Form]}
+              value={form[textFieldName as keyof ClientForm]}
               variant="outlined"
             />
           ))}

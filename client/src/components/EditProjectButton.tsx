@@ -4,7 +4,7 @@ import { FaPencilAlt } from "react-icons/fa";
 
 import AppDialog from "./AppDialog";
 import ProjectForm from "./ProjectForm/ProjectForm";
-import { Project } from "../models";
+import { Project, ProjectFormModel } from "../models";
 import { statusItems } from "../constants";
 
 interface EditProjectButtonProps {
@@ -15,10 +15,10 @@ const mapStatusItemToValue = (project: Project) =>
   statusItems.find(({ item }) => item === project.status)?.value || "";
 
 export default function EditProjectButton({ project }: EditProjectButtonProps) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<ProjectFormModel>({
     name: project.name,
     description: project.description,
-    clientId: "",
+    clientId: String(project.client?.id) ?? "",
     status: mapStatusItemToValue(project)
   });
   const [dialogOpen, setDialogOpen] = useState(false);

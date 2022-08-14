@@ -10,7 +10,14 @@ interface Project {
   description: string;
   name: string;
   status: string;
-  client?: Client;
+  client: Client;
 }
 
-export type { Client, Project };
+interface ProjectFormModel {
+  name: string;
+  description: string;
+  clientId: string | undefined;
+  status: string;
+}
+
+export type { Client, Project, ProjectFormModel };
