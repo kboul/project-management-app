@@ -16,7 +16,7 @@ import AppDialog from "../AppDialog";
 import TransitionBottomCenter from "../TransitionBottomCenter";
 import { DELETE_CLIENT } from "../../mutations/client";
 import { Client } from "../../models";
-import { GET_CLIENTS } from "../../queries";
+import { GET_CLIENTS, GET_PROJECTS } from "../../queries";
 
 interface ClientRowProps {
   client: Client;
@@ -27,20 +27,7 @@ export default function ClientRow({ client }: ClientRowProps) {
 
   const [deleteClient] = useMutation(DELETE_CLIENT, {
     variables: { id: client.id },
-    // refetchQueries: [{ query: GET_CLIENTS }], // refetches all data after deletion
-    update(cache, { data: { deleteClient } }) {
-      const cachedClients: { clients: Client[] } | null = cache.readQuery({
-        query: GET_CLIENTS
-      });
-      cache.writeQuery({
-        query: GET_CLIENTS,
-        data: {
-          clients: cachedClients?.clients.filter(
-            ({ id }) => id !== deleteClient.id
-          )
-        }
-      });
-    }
+    refetchQueries: [{ query: GET_CLIENTS }, { query: GET_PROJECTS }] // refetches all data after deletion
   });
 
   const handleOk = () => deleteClient();
@@ -67,7 +54,9 @@ export default function ClientRow({ client }: ClientRowProps) {
         TransitionComponent={TransitionBottomCenter}>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this client?
+            Are you sure you want to delete this client? <br />
+            This action will delete all projects that the client participates
+            in.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
